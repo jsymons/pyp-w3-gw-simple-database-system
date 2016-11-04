@@ -55,12 +55,15 @@ class Table(object):
             query_results.append(RowEntry(**result))
         if sort_by:
             #bubble sort
-            for i in range(len(query_results) - 1):
-                current = query_results[i]
-                next_ = query_results[i + 1]
-                if getattr(current, sort_by) > getattr(next_, sort_by):
-                    query_results[i] = next_
-                    query_results[i + 1] = current
+            for item in query_results:
+                if query_results[-1] != item:
+                    current = item
+                    current_index = query_results.index(item)
+                    next_index = current_index + 1
+                    next_ = query_results[next_index]
+                    if getattr(current, sort_by) > getattr(next_, sort_by):
+                        query_results[current_index] = next_
+                        query_results[next_index] = current
             
         return query_results
 
