@@ -143,3 +143,7 @@ class SimpleDatabaseTestCase(unittest.TestCase):
             {'name': 'alive', 'type': 'bool'},
         ]
         self.assertEqual(columns, expected)
+        
+    def test_sort(self):
+        authors = self.db.authors.query(sort_by='name')
+        self.assertEqual(authors[0].name, 'Edgard Alan Poe')

@@ -44,7 +44,7 @@ class Table(object):
         self.rows.append(row_data)
         self._write()
 
-    def query(self, **kwargs):
+    def query(self, sort_by=None, **kwargs):
         search_parameters = list(kwargs.keys())
         search_results = [x for x in self.rows]
         while len(search_parameters) > 0:
@@ -53,6 +53,15 @@ class Table(object):
         query_results = []
         for result in search_results:
             query_results.append(RowEntry(**result))
+        if sort_by:
+            #bubble sort
+            for i in range(len(query_results) - 1):
+                current = query_results[i]
+                next_ = query_results[i + 1]
+                if getattr(current, sort_by) > getattr(next_, sort_by):
+                    query_results[i] = next_
+                    query_results[i + 1] = current
+            
         return query_results
 
     def all(self):
